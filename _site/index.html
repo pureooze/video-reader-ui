@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Reader</title>
+  </head>
+  <body>
+    
+<script>
+	async function fetchVideos() {
+		const url = document.getElementById('url-input').value;
+
+		const result = await fetch('https://o0altce7x7.execute-api.us-east-2.amazonaws.com/VideoReader?uri=' + url);
+
+		console.log('we fetching: ', url);
+	}
+</script>
+
+<div>
+	<h1 class="page-title">Video Reader</h1>
+	<div>
+		<label for="url">Video Url:</label>
+		<input type="text" name="url" id="url-input"/>
+		<button onclick="fetchVideos()">Fetch</button>
+	</div>
+</div>
+  </body>
+</html>
