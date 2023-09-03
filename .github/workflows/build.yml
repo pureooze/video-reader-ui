@@ -16,7 +16,7 @@ jobs:
       - name: Assume Role
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
-            role-to-assume: ${{ secrets.AWS_ROLE_TO_UPLOAD_LAMBDA }}
+            role-to-assume: ${{ secrets.AWS_ROLE_TO_UPLOAD_S3 }}
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
             aws-region: us-east-2
       - name: deploy
