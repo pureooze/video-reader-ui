@@ -1,0 +1,24 @@
+{
+  "name": "video-reader-ui",
+  "version": "0.0.1",
+  "description": "A UI for video reader backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pureooze/video-reader-ui.git"
+  },
+  "keywords": [
+    "video",
+    "download",
+    "reader"
+  ],
+  "author": "Uzair Shamim",
+  "license": "BSD 3-Clause License",
+  "bugs": {
+    "url": "https://github.com/pureooze/video-reader-ui/issues"
+  },
+  "homepage": "https://github.com/pureooze/video-reader-ui#readme"
+}
