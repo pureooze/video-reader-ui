@@ -4,6 +4,8 @@
   "description": "A UI for video reader backend",
   "main": "index.js",
   "scripts": {
+    "cleanup": "rm -rf _site _temp",
+    "build": "npm run cleanup && npx @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
