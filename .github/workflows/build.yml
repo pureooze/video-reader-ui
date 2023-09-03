@@ -24,4 +24,4 @@ jobs:
             aws-region: us-east-2
       - name: deploy
         if: github.ref == 'refs/heads/main'
-        run: aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ "s3://videoreader-ui
+        run: aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://videoreader-ui
