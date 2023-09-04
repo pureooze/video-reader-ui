@@ -8,7 +8,7 @@ title: Video Reader
 		const url = document.getElementById('url-input').value;
 
 		const response = await fetch('https://cukc1c929i.execute-api.us-east-2.amazonaws.com/default/videoreader?uri=' + url);
-		const results = response.json();
+		const results = await response.json();
 
 		const resultsListElement = document.getElementById('results-list');
 		resultsListElement.replaceChildren([]);
