@@ -56,7 +56,7 @@ title: Video Reader
 				throw "Unexpected Output Type"
 			}
 
-			downloadLink.setAttribute("download", result.VideoQuality.Label);
+			downloadLink.setAttribute("download", result.Filename);
 			downloadLink.textContent = 'Download';
 			url.appendChild(downloadLink);
 
