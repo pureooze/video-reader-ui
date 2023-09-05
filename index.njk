@@ -4,25 +4,61 @@ title: Video Reader
 ---
 
 <script>
+
+	function downloadFile(content, fileName, mimeType) {
+
+		const downloadLink = document.createElement('a');
+		
+		downloadLink.href = url;
+		downloadLink.download = fileName;
+		
+		// Append download link to the DOM and trigger a click to start the download
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		
+		// Clean up after the download is complete
+		document.body.removeChild(downloadLink);
+		URL.revokeObjectURL(url);
+	}
+
 	async function fetchVideos() {
+		const SourceTypes = {
+			File: 0,
+			Playlist: 1
+		};
+
 		const url = document.getElementById('url-input').value;
 
 		const response = await fetch('https://cukc1c929i.execute-api.us-east-2.amazonaws.com/default/videoreader?uri=' + url);
-		const results = await response.json();
+		const results = await response.json() || [];
 
 		const resultsListElement = document.getElementById('results-list');
 		resultsListElement.replaceChildren([]);
 
-		for( let result of results) {
+		for( let result of results.Result) {
 			const container = document.createElement("tr");
 			container.classList.add("result")
 			const name = "asd";
 
 			const url = document.createElement("td");
-			const anchor = document.createElement("a");
-			anchor.setAttribute("href", result.Url);
-			anchor.innerHTML = 'Download';
-			url.appendChild(anchor);
+			const downloadLink = document.createElement("a");
+
+			if (results.OutputType == SourceTypes.Playlist) {
+				const blob = new Blob([result.Url], { type: "application/x-mpegURL" });
+				const url = URL.createObjectURL(blob);
+
+				downloadLink.setAttribute("href", url);
+			} else if ( results.OutputType == SourceTypes.File ) {
+				const blob = new Blob([result.Url], { type: "video/mp4" });
+				const url = URL.createObjectURL(blob);
+				downloadLink.setAttribute("href", url);
+			} else {
+				throw "Unexpected Output Type"
+			}
+
+			downloadLink.setAttribute("download", result.VideoQuality.Label);
+			downloadLink.textContent = 'Download';
+			url.appendChild(downloadLink);
 
 			const codec = document.createElement("td");
 			codec.innerHTML = result.Codec;
@@ -39,7 +75,6 @@ title: Video Reader
 			container.appendChild(framerate);
 			resultsListElement.appendChild(container);
 		}
-
 
 	}
 </script>
