@@ -4,6 +4,27 @@ title: Video Reader
 ---
 
 <script>
+	fetch('2023-9-9_14-14-39.br')
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+	function downloadFile(content, fileName, mimeType) {
+
+		const downloadLink = document.createElement('a');
+		
+		downloadLink.href = url;
+		downloadLink.download = fileName;
+		
+		// Append download link to the DOM and trigger a click to start the download
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		
+		// Clean up after the download is complete
+		document.body.removeChild(downloadLink);
+		URL.revokeObjectURL(url);
+	}
+
 	async function fetchVideos() {
 		const url = document.getElementById('url-input').value;
 
