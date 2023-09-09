@@ -6,7 +6,8 @@
   "scripts": {
     "cleanup": "rm -rf _site _temp",
     "build": "npm run cleanup && npx @11ty/eleventy",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run cleanup && npx @11ty/eleventy --serve"
   },
   "repository": {
     "type": "git",

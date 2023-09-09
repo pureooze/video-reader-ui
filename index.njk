@@ -26,19 +26,77 @@ title: Video Reader
 	}
 
 	async function fetchVideos() {
+		const SourceTypes = {
+			File: 0,
+			Playlist: 1
+		};
+
 		const url = document.getElementById('url-input').value;
 
-		const result = await fetch('https://cukc1c929i.execute-api.us-east-2.amazonaws.com/default/videoreader?uri=' + url);
+		const response = await fetch('https://cukc1c929i.execute-api.us-east-2.amazonaws.com/default/videoreader?uri=' + url);
+		const results = await response.json() || [];
 
-		console.log('we fetching: ', url);
+		const resultsListElement = document.getElementById('results-list');
+		resultsListElement.replaceChildren([]);
+
+		for( let result of results.Result) {
+			const container = document.createElement("tr");
+			container.classList.add("result")
+			const name = "asd";
+
+			const url = document.createElement("td");
+			const downloadLink = document.createElement("a");
+
+			if (results.OutputType == SourceTypes.Playlist) {
+				const blob = new Blob([result.Url], { type: "application/x-mpegURL" });
+				const url = URL.createObjectURL(blob);
+
+				downloadLink.setAttribute("href", url);
+			} else if ( results.OutputType == SourceTypes.File ) {
+				const blob = new Blob([result.Url], { type: "video/mp4" });
+				const url = URL.createObjectURL(blob);
+				downloadLink.setAttribute("href", url);
+			} else {
+				throw "Unexpected Output Type"
+			}
+
+			downloadLink.setAttribute("download", result.Filename);
+			downloadLink.textContent = 'Download';
+			url.appendChild(downloadLink);
+
+			const codec = document.createElement("td");
+			codec.innerHTML = result.Codec;
+
+			const label = document.createElement("td");
+			label.innerHTML = result.VideoQuality.Label;
+
+			const framerate = document.createElement("td");
+			framerate.innerHTML = result.VideoQuality.Framerate
+
+			container.appendChild(url);
+			container.appendChild(codec);
+			container.appendChild(label);
+			container.appendChild(framerate);
+			resultsListElement.appendChild(container);
+		}
+
 	}
 </script>
 
+<style>
+	.results-list {
+		background-color: #f3f3f3
+	}
+</style>
+
 <div>
 	<h1 class="page-title">Video Reader</h1>
-	<div>
-		<label for="url">Video Url:</label>
-		<input type="text" name="url" id="url-input"/>
-		<button onclick="fetchVideos()">Fetch</button>
+	<div class="form-and-result-container" id="form-and-result-container">
+		<div class="form">
+			<label for="url">Video Url:</label>
+			<input type="text" name="url" id="url-input"/>
+			<button onclick="fetchVideos()">Fetch</button>
+		</div>
+		<table class="results-list" id="results-list"></table>
 	</div>
 </div>
