@@ -24,4 +24,7 @@ jobs:
             aws-region: us-east-2
       - name: deploy
         if: github.ref == 'refs/heads/main'
-        run: aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://www.pureooze.com
+        run: |
+          find ./_site/ \( -iname '*.html' -o -iname '*.css' -o -iname '*.js' -o -iname '*.json' -o -iname '*.svg' -o -iname '*.xml' \) -exec brotli {} \; -exec mv {}.br {} \;
+          aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://www.pureooze.com --content-encoding 'br' --exclude '*.*' --include '*.html' --include '*.js' --include '*.json' --include '*.csv' --include '*.svg' --include '*.xml'
+          aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://www.pureooze.com --exclude '*.html' --exclude '*.css' --exclude '*.js' --exclude '*.json' --exclude '*.csv' --exclude '*.svg' --exclude '*.xml' --exclude '*.woff2'
