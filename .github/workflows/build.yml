@@ -25,6 +25,6 @@ jobs:
       - name: deploy
         if: github.ref == 'refs/heads/main'
         run: |
-          find ./_site/ \( -iname '*.html' -o -iname '*.css' -o -iname '*.js' -o -iname '*.json' -o -iname '*.svg' -o -iname '*.xml' \) -exec brotli {} \; -exec mv {}.br {} \;
+          find ./_site/ \( -iname '*.css' -o -iname '*.js' -o -iname '*.json' -o -iname '*.svg' -o -iname '*.xml' \) -exec brotli {} \; -exec mv {}.br {} \;
           aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://www.pureooze.com --content-encoding 'br' --exclude '*.*' --include '*.js' --include '*.json' --include '*.csv' --include '*.svg' --include '*.xml'
           aws s3 sync --delete --cache-control 'public,max-age=31536000,immutable' ./_site/ s3://www.pureooze.com --exclude '*.css' --exclude '*.js' --exclude '*.json' --exclude '*.csv' --exclude '*.svg' --exclude '*.xml' --exclude '*.woff2'
